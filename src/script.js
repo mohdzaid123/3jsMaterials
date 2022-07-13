@@ -79,17 +79,25 @@ const scene = new THREE.Scene();
 
 const material = new THREE.MeshStandardMaterial();
 
-material.metalness = 0.45;
-material.roughness = 0.65;
+material.metalness = 0;
+material.roughness = 1;
 material.map = doorColorTexture;
 // To darker the door sides
 material.aoMap = doorAmbientOcclusionTexture;
+material.aoMapIntensity = 1;
+material.displacementMap = doorHeightTexture;
+material.displacementScale = 0.05;
+material.metalnessMap = doorMetalnessTexture;
+material.roughnessMap = doorRoughnessTexture;
+material.normalMap=doorNormalTexture
 
 gui.add(material, "metalness").min(0).max(1).step(0.0001);
 gui.add(material, "roughness").min(0).max(1).step(0.0001);
+gui.add(material, "aoMapIntensity").min(0).max(1).step(0.0001);
+gui.add(material, "displacementScale").min(0).max(1).step(0.0001);
 
 const sphere = new THREE.Mesh(
-  new THREE.SphereBufferGeometry(0.5, 16, 16),
+  new THREE.SphereBufferGeometry(0.5, 64, 64),
   material
 );
 
@@ -102,7 +110,10 @@ sphere.geometry.setAttribute(
 
 // console.log();
 
-const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(1, 1), material);
+const plane = new THREE.Mesh(
+  new THREE.PlaneBufferGeometry(1, 1, 100, 100),
+  material
+);
 
 plane.geometry.setAttribute(
   "uv2",
@@ -110,7 +121,7 @@ plane.geometry.setAttribute(
 );
 
 const torus = new THREE.Mesh(
-  new THREE.TorusBufferGeometry(0.3, 0.2, 16, 32),
+  new THREE.TorusBufferGeometry(0.3, 0.2, 64, 128),
   material
 );
 
