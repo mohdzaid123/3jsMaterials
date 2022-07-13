@@ -18,6 +18,7 @@ const gui = new dat.GUI();
  */
 
 const textureLoader = new THREE.TextureLoader();
+const cubeTextureLoader = new THREE.CubeTextureLoader();
 
 const doorColorTexture = textureLoader.load("/textures/door/color.jpg");
 const doorAlphaTexture = textureLoader.load("/textures/door/alpha.jpg");
@@ -34,6 +35,15 @@ const gradientTexture = textureLoader.load("/textures/gradients/5.jpg");
 gradientTexture.minFilter = THREE.NearestFilter;
 gradientTexture.magFilter = THREE.NearestFilter;
 gradientTexture.generateMipmaps = false;
+
+const environmentMapTexture = cubeTextureLoader.load([
+  "/textures/environmentMaps/2/px.jpg",
+  "/textures/environmentMaps/2/nx.jpg",
+  "/textures/environmentMaps/2/py.jpg",
+  "/textures/environmentMaps/2/ny.jpg",
+  "/textures/environmentMaps/2/pz.jpg",
+  "/textures/environmentMaps/2/nz.jpg",
+]);
 
 /**
  * Base
@@ -77,19 +87,27 @@ const scene = new THREE.Scene();
 // const material = new THREE.MeshToonMaterial();
 // material.gradientMap = gradientTexture;
 
-const material = new THREE.MeshStandardMaterial();
+// const material = new THREE.MeshStandardMaterial();
 
-material.metalness = 0;
-material.roughness = 1;
-material.map = doorColorTexture;
-// To darker the door sides
-material.aoMap = doorAmbientOcclusionTexture;
-material.aoMapIntensity = 1;
-material.displacementMap = doorHeightTexture;
-material.displacementScale = 0.05;
-material.metalnessMap = doorMetalnessTexture;
-material.roughnessMap = doorRoughnessTexture;
-material.normalMap=doorNormalTexture
+// material.metalness = 0;
+// material.roughness = 1;
+// material.map = doorColorTexture;
+// // To darker the door sides
+// material.aoMap = doorAmbientOcclusionTexture;
+// material.aoMapIntensity = 1;
+// material.displacementMap = doorHeightTexture;
+// material.displacementScale = 0.05;
+// material.metalnessMap = doorMetalnessTexture;
+// material.roughnessMap = doorRoughnessTexture;
+// material.normalMap = doorNormalTexture;
+// material.normalScale.set(0.5, 0.5);
+// material.transparent = true;
+// material.alphaMap = doorAlphaTexture;
+const material = new THREE.MeshStandardMaterial();
+material.metalness = 0.7;
+material.roughness = 0.2;
+
+material.envMap = environmentMapTexture;
 
 gui.add(material, "metalness").min(0).max(1).step(0.0001);
 gui.add(material, "roughness").min(0).max(1).step(0.0001);
