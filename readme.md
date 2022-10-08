@@ -11,6 +11,9 @@ npm install
 # Run the local server at localhost:8080
 npm run dev
 
+# Run to test
+npm run test
+
 # Build for production in the dist/ directory
 npm run build
 
