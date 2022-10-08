@@ -13,4 +13,9 @@ npm run dev
 
 # Build for production in the dist/ directory
 npm run build
+
+# Yarn command
+
+yarn run dev
+
 ```
